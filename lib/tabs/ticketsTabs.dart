@@ -19,9 +19,13 @@ class TicketTabsPage extends StatefulWidget {
 
 class _TicketTabsPageState extends State<TicketTabsPage> {
   int jum = 0;
-  int itemCount;
+  int itemCount = 1;
   void getData() async {
+    jum = 1;
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getInt(Teks.jumTiket) == null) {
+      await prefs.setInt(Teks.jumTiket, 0);
+    }
     setState(() {
       jum = prefs.getInt(Teks.jumTiket);
     });
@@ -66,7 +70,8 @@ class _TicketTabsPageState extends State<TicketTabsPage> {
                 alignment: AlignmentDirectional.topStart,
                 child: GestureDetector(
                   onDoubleTap: () async {
-                    if (jum >= 0) {
+                    print("$jum asd");
+                    if (jum > 0) {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       await prefs.setInt(Teks.jumTiket, jum - 1);
