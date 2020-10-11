@@ -40,7 +40,7 @@ class _YourEventState extends State<YourEvent> {
                   child: Align(
                     alignment: AlignmentDirectional.topStart,
                     child: Text(
-                      'Tiketku',
+                      'My Event',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
