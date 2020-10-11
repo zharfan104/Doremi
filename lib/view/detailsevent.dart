@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:doremi/router.gr.dart';
+import 'package:doremi/services/firabaseAuthFunc.dart';
 import 'package:doremi/tabs/category/models/konser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,12 +15,14 @@ import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/view/organizer.dart';
 import 'package:doremi/view/transaction.dart';
 import 'package:doremi/tabs/components/ticketViewInfo.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:doremi/view/transaction_user_input.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:scaling_header/scaling_header.dart';
 import 'package:ticket_pass_package/ticket_pass.dart';
 import 'package:ticketview/ticketview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsEvent extends StatefulWidget {
   final Konser konser;
@@ -31,36 +36,57 @@ class DetailsEvent extends StatefulWidget {
 
 class _DetailsEventState extends State<DetailsEvent>
     with TickerProviderStateMixin {
+  FirebaseAuthFunc firebaseAuthFunc = new FirebaseAuthFunc();
+  SharedPreferences prefs;
+
   double h;
   double w;
-  final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: 1,
-    //   title: "Demo Transaction 1",
-    //   amount: 69.90,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 2,
-    //   title: "Demo Transaction 2",
-    //   amount: 19.22,
-    //   date: DateTime.now(),
-    // ),
-  ];
   TabController _tabController;
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
+    getData();
     // TODO: implement initState
     super.initState();
   }
 
   bool sudahLive = false;
   bool sudahBeli = false;
+  bool isLogin = false;
+  void getData() async {
+    String keySudahBeli = Teks.sudahBeli + widget.konser.namaKonser;
+    // print(DateTime.now().millisecondsSinceEpoch -
+    //     widget.konser.datetimeTanggal.millisecondsSinceEpoch);
+    if (firebaseAuthFunc.getCurrentUserID() == null) {
+      setState(() {
+        isLogin = false;
+      });
+    } else {
+      setState(() {
+        isLogin = true;
+      });
+    }
+
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(keySudahBeli) == null) {
+      await prefs.setBool(keySudahBeli, false);
+    } else {
+      setState(() {
+        sudahBeli = prefs.getBool(keySudahBeli);
+      });
+    }
+    if (DateTime.now().millisecondsSinceEpoch >=
+        widget.konser.datetimeTanggal.millisecondsSinceEpoch) {
+      setState(() {
+        sudahLive = true;
+      });
+    }
+  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Completer<GoogleMapController> _controller = Completer();
+
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(5.3385615, -3.9585525),
     zoom: 14.4746,
@@ -79,6 +105,7 @@ class _DetailsEventState extends State<DetailsEvent>
 
     w = width;
     h = height;
+    String keySudahBeli = Teks.sudahBeli + widget.konser.namaKonser;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -213,6 +240,7 @@ class _DetailsEventState extends State<DetailsEvent>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 CountdownTimer(
+                                  emptyWidget: Text("Konser sudah dimulai"),
                                   daysSymbol: Text(
                                     " D ",
                                     style: TextStyle(
@@ -220,7 +248,7 @@ class _DetailsEventState extends State<DetailsEvent>
                                   ),
                                   endTime: widget.konser.datetimeTanggal
                                           .millisecondsSinceEpoch +
-                                      100 * 60 * 60,
+                                      10 * 60 * 60,
                                   onEnd: () {
                                     setState(() {
                                       sudahLive = true;
@@ -444,6 +472,8 @@ class _DetailsEventState extends State<DetailsEvent>
                   child: TombolBeli(
                     sudahBeli: sudahBeli,
                     sudahLive: sudahLive,
+                    isLogin: isLogin,
+                    keySudahBeli: keySudahBeli,
                   )))
         ],
       ),
@@ -571,15 +601,25 @@ class _DetailsEventState extends State<DetailsEvent>
 class TombolBeli extends StatelessWidget {
   final bool sudahBeli;
   final bool sudahLive;
+  final bool isLogin;
+  final String keySudahBeli;
 
-  const TombolBeli({Key key, this.sudahBeli, this.sudahLive}) : super(key: key);
+  const TombolBeli(
+      {Key key,
+      this.sudahBeli,
+      this.sudahLive,
+      this.isLogin,
+      this.keySudahBeli})
+      : super(key: key);
   void startAddTransaction(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
           return Container(
             color: darkAqua,
-            child: TransactionUserInput(),
+            child: TransactionUserInput(
+              keySudahBeli: keySudahBeli,
+            ),
             height: 1200,
           );
         });
@@ -594,7 +634,9 @@ class TombolBeli extends StatelessWidget {
             borderRadius: BorderRadius.circular(34),
           ),
           onPressed: () async {
-            startAddTransaction(context);
+            Fluttertoast.showToast(
+                msg: "Silahkan tunggu hingga waktu konser tiba.");
+            //tama
           },
           padding: EdgeInsets.all(15),
           color: Colors.red,
@@ -606,11 +648,12 @@ class TombolBeli extends StatelessWidget {
             borderRadius: BorderRadius.circular(34),
           ),
           onPressed: () async {
-            startAddTransaction(context);
+            Fluttertoast.showToast(
+                msg: "Silahkan tunggu hingga waktu konser tiba.");
           },
           padding: EdgeInsets.all(15),
           color: darkBlack,
-          child: Text('Anda Sudah Tidak Bisa Beli Tiket',
+          child: Text('Anda Sudah Beli Tiket',
               style: TextStyle(color: Colors.white)),
         );
       }
@@ -620,7 +663,16 @@ class TombolBeli extends StatelessWidget {
           borderRadius: BorderRadius.circular(34),
         ),
         onPressed: () async {
-          startAddTransaction(context);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          if (isLogin) {
+            startAddTransaction(context);
+          } else {
+            ExtendedNavigator.of(context).push(
+              Routes.loginPage,
+            );
+            Fluttertoast.showToast(msg: "Silahkan login terlebih dahulu.");
+          }
         },
         padding: EdgeInsets.all(15),
         color: darkBlack,

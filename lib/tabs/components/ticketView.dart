@@ -152,8 +152,10 @@ class TicketView extends StatelessWidget {
                       child: FlatButton(
                           color: Colors.red,
                           onPressed: () {
-                            ExtendedNavigator.of(context)
-                                .push(Routes.detailsEvent);
+                            ExtendedNavigator.of(context).push(
+                                Routes.detailsEvent,
+                                arguments: DetailsEventArguments(
+                                    konser: listKonser[index]));
                           },
                           child: Text(
                             "Detail Konser",

@@ -20,7 +20,7 @@ import 'package:doremi/view/splash.dart';
     MaterialRoute(page: SplashScreenPage, initial: true, name: "InitialRoute"),
     //This route returns result of type [bool]
     CustomRoute<bool>(
-        page: LoginPage, transitionsBuilder: TransitionsBuilders.fadeIn),
+        page: LoginPage, transitionsBuilder: TransitionsBuilders.slideBottom),
     CustomRoute<bool>(
         page: IntroPage, transitionsBuilder: TransitionsBuilders.fadeIn),
     CustomRoute<bool>(
