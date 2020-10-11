@@ -3,19 +3,32 @@ import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
 import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/tabs/category/models/konser.dart';
+import 'package:doremi/tabs/musisi/live_concert/live_concert_page.dart';
 import 'package:doremi/tabs/musisi/pernyataanUser.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ticket_pass_package/ticket_pass.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class MusicianTicketView extends StatelessWidget {
+class MusicianTicketView extends StatefulWidget {
   final Color bgcolor;
   final Konser konser;
   MusicianTicketView({this.bgcolor, this.konser});
+
+  @override
+  _MusicianTicketViewState createState() => _MusicianTicketViewState();
+}
+
+class _MusicianTicketViewState extends State<MusicianTicketView> {
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -347,9 +360,15 @@ class MusicianTicketView extends StatelessWidget {
                                   children: <Widget>[
                                     FlatButton(
                                       color: darkBlack,
-                                      onPressed: () {
-                                        Fluttertoast.showToast(
-                                            msg: "Belum jadi.");
+                                      onPressed: () async {
+                                        // await for camera and mic permissions before pushing video page
+                                        await _handleCameraAndMic();
+                                        // push video page with given channel name
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LiveConcertPage()));
                                       },
                                       child: Row(
                                         mainAxisAlignment:
