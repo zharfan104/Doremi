@@ -33,4 +33,5 @@ class Teks {
   static String uid = "uid";
   static String namaUser = "namaUser";
   static String emailUser = "emailUser";
+  static String sudahBeli = "sudahBeli";
 }

@@ -95,7 +95,7 @@ class Router extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
             LoginPage(key: args.key),
         settings: data,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideBottom,
       );
     },
     IntroPage: (data) {

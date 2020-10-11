@@ -15,6 +15,7 @@ Konser _$KonserFromJson(Map<String, dynamic> json) {
     harga: json['harga'] as int,
     poster: json['poster'] as String,
     deskripsi: json['deskripsi'] as String,
+    sudahBeli: json['sudahBeli'] as bool,
   );
 }
 
@@ -25,5 +26,6 @@ Map<String, dynamic> _$KonserToJson(Konser instance) => <String, dynamic>{
       'harga': instance.harga,
       'poster': instance.poster,
       'datetimeTanggal': instance.datetimeTanggal.toIso8601String(),
+      'sudahBeli': instance.sudahBeli,
       'deskripsi': instance.deskripsi,
     };

@@ -30,6 +30,7 @@ List photoband = [
   'artis-nadin.png',
   'artis-tulus.png',
 ];
+List listNama = ['Ardhito', 'Hindia', 'Kunto Aji', 'Nadin', 'Tulus'];
 
 class HomeTabsPage extends StatefulWidget {
   HomeTabsPage({Key key}) : super(key: key);
@@ -358,7 +359,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
             height: 200.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: _getEvents(photoband),
+              children: _getEvents2(photoband),
             ),
           ),
           Container(
@@ -419,6 +420,62 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
               ),
             ),
           ),
+        ),
+      ));
+    }
+    return listings;
+  }
+
+  List<Widget> _getEvents2(List itemPhoto) {
+    List listings = new List<Widget>();
+    int i = 0;
+    for (i = 0; i < itemPhoto.length; i++) {
+      listings.add(Bounce(
+        duration: Duration(milliseconds: 110),
+        onPressed: () {},
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.black, boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    offset: const Offset(1.1, 1.1),
+                    blurRadius: 10.0,
+                  ),
+                ]),
+                height: 200.0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: new Image.asset(
+                    "assets/poster_konser/${itemPhoto[i]}",
+
+                    fit: BoxFit.cover,
+                    // width: 255,
+                    height: 325,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0.0,
+              top: 0.0,
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Container(
+                    height: 200.0,
+                    child: Center(
+                        child: Text(
+                      listNama[i],
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22.0),
+                    ))),
+              ),
+            ),
+          ],
         ),
       ));
     }

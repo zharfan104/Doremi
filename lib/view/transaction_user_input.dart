@@ -2,15 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ticket_pass_package/ticket_pass.dart';
+
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
-import 'package:doremi/view/transaction.dart';
-import 'package:ticket_pass_package/ticket_pass.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:doremi/tabs/category/models/listKonser.dart';
+import 'package:doremi/view/transaction.dart';
 
 class TransactionUserInput extends StatefulWidget {
-  TransactionUserInput();
+  final String keySudahBeli;
+  TransactionUserInput({
+    Key key,
+    @required this.keySudahBeli,
+  }) : super(key: key);
 
   @override
   _TransactionUserInputState createState() => _TransactionUserInputState();
@@ -338,6 +343,8 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                             }
                           }
                           print(_fbKey.currentState.value);
+                          await prefs.setBool(widget.keySudahBeli, true);
+
                           ExtendedNavigator.of(context).push(
                             Routes.checkOutPage,
                           );

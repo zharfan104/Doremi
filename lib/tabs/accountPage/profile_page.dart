@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:doremi/services/firabaseAuthFunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:doremi/router.gr.dart';
@@ -17,6 +18,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  FirebaseAuthFunc firebaseAuthFunc = new FirebaseAuthFunc();
+
   TextStyle defaultStyle = TextStyle(color: Colors.white, fontSize: 8.0);
 
   TextStyle linkStyle = TextStyle(color: Colors.blue);
@@ -133,25 +136,49 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Divider(),
-              Column(
-                children: <Widget>[
-                  Container(
-                      width: MediaQuery.of(context).size.width - 25,
-                      padding: EdgeInsets.all(25),
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(34),
-                        ),
-                        onPressed: () async {
-                          ExtendedNavigator.of(context).push(Routes.loginPage);
-                        },
-                        padding: EdgeInsets.all(15),
-                        color: HexColor("C52127"),
-                        child: Text('Logout',
-                            style: TextStyle(color: Colors.white)),
-                      ))
-                ],
-              ),
+              (nama == "")
+                  ? Column(
+                      children: <Widget>[
+                        Container(
+                            width: MediaQuery.of(context).size.width - 25,
+                            padding: EdgeInsets.all(25),
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(34),
+                              ),
+                              onPressed: () async {
+                                await firebaseAuthFunc.logOutUser();
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.loginPage);
+                              },
+                              padding: EdgeInsets.all(15),
+                              color: HexColor("C52127"),
+                              child: Text('Log In Akun',
+                                  style: TextStyle(color: Colors.white)),
+                            ))
+                      ],
+                    )
+                  : Column(
+                      children: <Widget>[
+                        Container(
+                            width: MediaQuery.of(context).size.width - 25,
+                            padding: EdgeInsets.all(25),
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(34),
+                              ),
+                              onPressed: () async {
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.loginPage);
+                                await firebaseAuthFunc.logOutUser();
+                              },
+                              padding: EdgeInsets.all(15),
+                              color: HexColor("C52127"),
+                              child: Text('Logout',
+                                  style: TextStyle(color: Colors.white)),
+                            ))
+                      ],
+                    ),
             ],
           ),
         ),

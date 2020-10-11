@@ -46,6 +46,7 @@ class FirebaseAuthFunc {
       final String uid = userCredential.user.uid;
       final String namaUser = userCredential.user.displayName;
       final String emailUser = userCredential.user.email;
+
       await prefs.setString(Teks.namaUser, namaUser);
       await prefs.setString(Teks.uid, uid);
       await prefs.setString(Teks.emailUser, emailUser);
@@ -84,6 +85,11 @@ class FirebaseAuthFunc {
   //Output : -
   Future<void> logOutUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(Teks.namaUser, "");
+    await prefs.setString(Teks.uid, "");
+    await prefs.setString(Teks.emailUser, "");
     if (auth.currentUser != null) {
       await FirebaseAuth.instance.signOut();
       await _googleSignIn.disconnect();
