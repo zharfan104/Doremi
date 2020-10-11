@@ -1,13 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
-import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/tabs/category/models/konser.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:ticket_pass_package/ticket_pass.dart';
 
 class AddTicketView extends StatelessWidget {

@@ -3,6 +3,7 @@ import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
 import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/tabs/category/models/konser.dart';
+import 'package:doremi/tabs/musisi/pernyataanUser.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
@@ -15,6 +16,7 @@ class MusicianTicketView extends StatelessWidget {
   final Color bgcolor;
   final Konser konser;
   MusicianTicketView({this.bgcolor, this.konser});
+
   @override
   Widget build(BuildContext context) {
     openPopup() {
@@ -300,7 +302,11 @@ class MusicianTicketView extends StatelessWidget {
                                     FlatButton(
                                       color: darkBlack,
                                       onPressed: () {
-                                        openPopup();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QNEViewers()));
                                       },
                                       child: Row(
                                         mainAxisAlignment:
@@ -309,14 +315,14 @@ class MusicianTicketView extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Icon(
-                                            LineIcons.edit,
+                                            LineIcons.question_circle,
                                             color: Colors.white,
                                           ),
                                           SizedBox(
                                             width: 5.0,
                                           ),
                                           Text(
-                                            "Edit Konser",
+                                            "QNA Viewers",
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
