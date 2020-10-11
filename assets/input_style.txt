@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:doremi/settings/HexColor.dart';
+
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key}) : super(key: key);
+
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  final _formKey = GlobalKey();
+  final _user = Map();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: HexColor("FFF2F2"),
+      ),
+      body:  ListView(physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.only(left: 20, right: 20),
+        children: <Widget>[
+          SizedBox(height: 20,),
+          Container(            
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text('Login', style: TextStyle(
+                fontSize: 39,
+                fontWeight: FontWeight.bold,
+                color: HexColor("C52127")
+              ),),
+            ),
+          ),
+          SizedBox(height: 5),
+          Container(       
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text("Lets Get Started to see what's events are happening around the World!", style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: HexColor("676767")
+              ),),
+            ),
+          ),
+          Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+            child: Builder(
+                builder: (context) => Form(
+
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          TextFormField(
+                            decoration:
+                                InputDecoration(labelText: 'First name'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter your first name';
+                              }
+                            },
+                          ),
+                          TextFormField(
+                              decoration:
+                                  InputDecoration(labelText: 'Last name'),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter your last name.';
+                                }
+                              }),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+                            child: Text('Subscribe'),
+                          ),
+                          SwitchListTile(
+                              title: const Text('Monthly Newsletter'),
+                              value: true,
+                              onChanged: (bool val) => {}),
+                                
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+                            child: Text('Interests'),
+                          ),
+                          CheckboxListTile(
+                              title: const Text('Cooking'),
+                              value: false,
+                              onChanged: (val) {
+                              }),
+                          CheckboxListTile(
+                              title: const Text('Traveling'),
+                              value: true,
+                              onChanged: (val) {
+                              }),
+                          CheckboxListTile(
+                              title: const Text('Hiking'),
+                              value: true,
+                              onChanged: (val) {
+                              }),
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0, horizontal: 16.0),
+                              child: RaisedButton(
+                                  onPressed: () {
+                                    final form = _formKey.currentState;
+                                    // if (form.validate()) {
+                                    //   form.save();
+                                    //   _user.save();
+                                    //   _showDialog(context);
+                                    // }
+                                  },
+                                  child: Text('Save'))),
+                        ]
+                    )
+                  )
+             ))
+        ],
+      )
+    );
+  }
+}

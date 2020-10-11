@@ -1,0 +1,246 @@
+name: doremi
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.9.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intro_views_flutter: ^2.6.0
+  introduction_screen: ^1.0.6
+  font_awesome_flutter: ^8.5.0
+  pinput: ^0.1.10
+  cached_network_image: ^2.3.2+1
+  flutter_swiper: ^1.1.6
+  flutter_icons: ^0.2.5
+  badges: ^1.1.0
+  google_maps_flutter: ^0.5.21
+  line_icons: ^0.2.0
+  easy_dialog: ^1.0.5
+  auto_route: ^0.6.7
+  flutter_svg: ^0.19.0
+  flutter_rating_bar: ^1.3.0+1
+  pin_code_text_field: ^1.6.0
+  country_code_picker: ^1.1.5
+  numberpicker: ^1.0.0
+  flutter_form_builder: ^3.10.0
+  ticketview: ^1.0.0
+  scaling_header: ^1.1.1
+  flutter_bounce: ^1.0.8
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+  flutter_signin_button: ^1.1.0
+  ticket_pass_package: ^0.1.0
+  flutter_countdown_timer:
+    ^1.3.0
+    # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.0+1
+  cloud_firestore: ^0.14.0+2
+  firebase_storage: ^4.0.0
+  google_sign_in: ^4.5.4
+  image_picker: ^0.6.7+7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.7.3
+  shared_preferences: ^0.5.12
+  fluttertoast: ^7.1.1
+
+  auto_route_generator: ^0.6.8
+  build_runner:
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo app.png"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    # assets-generator-begin
+    # assets/images/*
+    - assets/images/anthony.png
+    - assets/images/app logo.png
+    - assets/images/city.png
+    - assets/images/codebarre.png
+    - assets/images/color hex.png
+    - assets/images/contoh ui.png
+    - assets/images/faq-active.png
+    - assets/images/faq.png
+    - assets/images/fbk.png
+    - assets/images/gift.png
+    - assets/images/gonzalo.png
+    - assets/images/google_logo.png
+    - assets/images/help-active.png
+    - assets/images/help.png
+    - assets/images/home-active.png
+    - assets/images/home.png
+    - assets/images/icon.png
+    - assets/images/logo app.png
+    - assets/images/logo.png
+    - assets/images/logo1.png
+    - assets/images/merch-active.png
+    - assets/images/merch-hindia.png
+    - assets/images/merch-kunto.png
+    - assets/images/merch-tulus.png
+    - assets/images/merch.png
+    - assets/images/kaos.jpg
+    - assets/images/people.png
+    - assets/images/photo0.png
+    - assets/images/photo1.png
+    - assets/images/photo2.png
+    - assets/images/photo3.png
+    - assets/images/musician.png
+    - assets/images/profile-active.png
+    - assets/images/profile.png
+    - assets/images/qna-active.png
+    - assets/images/qna.png
+    - assets/images/qr.png
+    - assets/images/qrcode.png
+    - assets/images/search-active.png
+    - assets/images/search.png
+    - assets/images/setting-active.png
+    - assets/images/setting.png
+    - assets/images/slide1.png
+    - assets/images/slide2.png
+    - assets/images/slide3.png
+    - assets/images/sociaux.png
+    - assets/images/ticket-active.png
+    - assets/images/ticket.png
+    - assets/images/user.png
+    - assets/images/welcomepage-1.png
+    - assets/images/welcomepage-2.png
+    - assets/images/welcomepage-3.png
+    - assets/images/welcomepage-4.png
+    # assets/icons/*
+    - assets/icons/10 usd.png
+    - assets/icons/5 usd.png
+    - assets/icons/about_us.png
+    - assets/icons/address_home.png
+    - assets/icons/address_work.png
+    - assets/icons/card.png
+    - assets/icons/cart_icon.svg
+    - assets/icons/category_icon.png
+    - assets/icons/category_icon.svg
+    - assets/icons/change_pass.png
+    - assets/icons/comment.png
+    - assets/icons/contact_us.png
+    - assets/icons/country.png
+    - assets/icons/cut_qr.png
+    - assets/icons/denied_wallet.png
+    - assets/icons/faq.png
+    - assets/icons/home.png
+    - assets/icons/home_icon.svg
+    - assets/icons/language.png
+    - assets/icons/legal.png
+    - assets/icons/list.png
+    - assets/icons/Logos.png
+    - assets/icons/notifications.png
+    - assets/icons/package.png
+    - assets/icons/profile.png
+    - assets/icons/profile_icon.png
+    - assets/icons/profile_icon.svg
+    - assets/icons/QR_code.png
+    - assets/icons/reload_icon.png
+    - assets/icons/reload_icon.svg
+    - assets/icons/search_icon.svg
+    - assets/icons/settings.png
+    - assets/icons/settings_icon.png
+    - assets/icons/settings_icon.svg
+    - assets/icons/shopeLogo.png
+    - assets/icons/sign_out.png
+    - assets/icons/support.png
+    - assets/icons/tiket-2.png
+    - assets/icons/tiket.png
+    - assets/icons/timer.png
+    - assets/icons/truck.png
+    - assets/icons/wallet.png
+    # assets/poster_konser/*
+    - assets/poster_konser/1.png
+    - assets/poster_konser/2.png
+    - assets/poster_konser/3.png
+    - assets/poster_konser/4.png
+    - assets/poster_konser/artis-ardhito.png
+    - assets/poster_konser/artis-hindia.png
+    - assets/poster_konser/artis-kunto.png
+    - assets/poster_konser/artis-nadin.png
+    - assets/poster_konser/artis-tulus.png
+    - assets/poster_konser/dangdut-1.png
+    - assets/poster_konser/dangdut-2.png
+    - assets/poster_konser/dangdut-3.png
+    - assets/poster_konser/jazz1.png
+    - assets/poster_konser/jazz2.png
+    - assets/poster_konser/jazz3.png
+    - assets/poster_konser/kunto-1.png
+    - assets/poster_konser/kunto-2.png
+    - assets/poster_konser/kunto-3.png
+    - assets/poster_konser/kunto-4.png
+    - assets/poster_konser/pop1.png
+    - assets/poster_konser/pop2.png
+    - assets/poster_konser/pop3.png
+    # assets-generator-end
+
+  fonts:
+    - family: BwNistaGeometricDEMO
+      fonts:
+        - asset: assets/fonts/BwNistaGeometricDEMORegular.woff
+        - asset: assets/fonts/BwNistaGeometricDEMOBold.woff
+        - asset: assets/fonts/BwNistaGeometricDEMOExtraBold.woff
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Black.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Montserrat-Italic.ttf
+          style: italic
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
