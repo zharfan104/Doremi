@@ -3,6 +3,7 @@ import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
 import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/tabs/category/models/konser.dart';
+import 'package:doremi/tabs/category/models/listKonser.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
@@ -63,7 +64,7 @@ class TicketView extends StatelessWidget {
                         ),
                         Container(
                           width: 260 / 2,
-                          child: Text('Doremi Apps',
+                          child: Text('Live @Doremi Apps',
                               style: TextStyle(
                                   fontSize: 10, fontWeight: FontWeight.bold)),
                         )
@@ -88,7 +89,8 @@ class TicketView extends StatelessWidget {
                         ),
                         Container(
                           width: 260 / 2 - 10,
-                          child: Text('15 September 2019 8:00 onwards',
+                          child: Text(
+                              '${listKonser[index].tanggal} ${listKonser[index].waktu}',
                               style: TextStyle(
                                   fontSize: 10, fontWeight: FontWeight.bold)),
                         )
@@ -106,13 +108,12 @@ class TicketView extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 15, top: 5),
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Include Nama Konser".toUpperCase(),
+                    child: Text(listKonser[index].namaKonser,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12.0)))),
             Container(
                 padding: const EdgeInsets.all(5),
-                child: Text(
-                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione architecto autem quasi nisi iusto eius ex dolorum velit! Atque, veniam! Atque incidunt",
+                child: Text(listKonser[index].deskripsi,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                         fontWeight: FontWeight.w300, fontSize: 12.0))),
@@ -126,13 +127,13 @@ class TicketView extends StatelessWidget {
               children: [
                 Container(
                     padding: const EdgeInsets.all(5),
-                    child: Text("Rp. 60.000,-",
+                    child: Text("IDR ${listKonser[index].harga.toString()}",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12.0))),
                 Container(
                     padding: const EdgeInsets.all(5),
-                    child: Text("via Tokopedia",
+                    child: Text("via ATM BNI",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12.0))),
@@ -208,7 +209,7 @@ class TicketView extends StatelessWidget {
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       Text(
-                                        '08.00',
+                                        listKonser[index].waktu,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600),
@@ -228,7 +229,7 @@ class TicketView extends StatelessWidget {
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       Text(
-                                        'Konserku',
+                                        listKonser[index].namaKonser,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -256,7 +257,7 @@ class TicketView extends StatelessWidget {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     Text(
-                                      '4 November 2020',
+                                      listKonser[index].tanggal,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white),
@@ -275,7 +276,7 @@ class TicketView extends StatelessWidget {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     Text(
-                                      '\Rp. 50.000,- ',
+                                      "IDR ${listKonser[index].harga.toString()}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white),

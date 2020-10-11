@@ -48,7 +48,8 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: 10, right: 10, bottom: 8.0),
+                padding:
+                    EdgeInsets.only(left: 10, right: 10, bottom: 8.0, top: 5.0),
                 child: Align(
                   alignment: AlignmentDirectional.topStart,
                   child: Text(
@@ -60,21 +61,25 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              ListTile(
-                title: Text(
-                  nama,
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle:
-                    Text('Lihat Profil', style: TextStyle(color: Colors.white)),
-                leading: CircleAvatar(
-                    radius: 30,
-                    backgroundImage:
-                        NetworkImage('https://via.placeholder.com/140x100')),
-                // trailing: Icon(Icons.chevron_right, color: Colors.white),
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => SettingsPage())),
-              ),
+              (nama == "")
+                  ? SizedBox(
+                      height: 20.0,
+                    )
+                  : ListTile(
+                      title: Text(
+                        nama,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Text('Lihat Profil',
+                          style: TextStyle(color: Colors.white)),
+                      leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(
+                              'https://via.placeholder.com/140x100')),
+                      // trailing: Icon(Icons.chevron_right, color: Colors.white),
+                      onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => SettingsPage())),
+                    ),
               ListTile(
                 title: Text(
                   'Pengaturan',

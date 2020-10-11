@@ -68,6 +68,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             children: [
               HomeTabsPage(),
               TicketTabsPage(),
+              // ProfilePage(),
               ProfilePage(),
             ],
           ),
