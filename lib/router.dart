@@ -29,7 +29,6 @@ import 'package:doremi/view/splash.dart';
         transitionsBuilder: TransitionsBuilders.fadeIn),
     CustomRoute<bool>(
         page: DetailsEvent, transitionsBuilder: TransitionsBuilders.zoomIn),
-
     CustomRoute<bool>(
         page: PaymentPage, transitionsBuilder: TransitionsBuilders.zoomIn),
     CustomRoute<bool>(

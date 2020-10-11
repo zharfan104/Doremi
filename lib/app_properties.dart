@@ -29,4 +29,8 @@ screenAwareSize(int size, BuildContext context) {
 
 class Teks {
   static String isIntroDone = "isIntroDone";
+  static String jumTiket = "jumTiket";
+  static String uid = "uid";
+  static String namaUser = "namaUser";
+  static String emailUser = "emailUser";
 }

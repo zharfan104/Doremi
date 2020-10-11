@@ -4,6 +4,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/settings/HexColor.dart';
+import 'package:doremi/services/firabaseAuthFunc.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:doremi/view/register.dart';
 import 'package:doremi/view/resetpassword.dart';
@@ -17,6 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  FirebaseAuthFunc firebaseAuthFunc = new FirebaseAuthFunc();
   final _formKey = GlobalKey();
   final _user = Map();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -47,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  "Ingin menonton konser tiket? Mulai buat akunmu sekarang!",
+                  "Ingin menonton konser? Mulai buat akunmu sekarang!",
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
@@ -69,9 +73,10 @@ class _LoginPageState extends State<LoginPage> {
                       FormBuilderTextField(
                         style: TextStyle(color: lightAqua),
                         attribute: "Email",
-                        decoration: InputDecoration(labelText: "Email",),
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                        ),
                         cursorColor: Colors.white,
-                        
                         validators: [
                           FormBuilderValidators.required(),
                         ],
@@ -95,9 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           onPressed: () async {
                             if (_fbKey.currentState.saveAndValidate()) {
-                              print(_fbKey.currentState.value);
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/home', (Route<dynamic> route) => false);
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'Maaf, fitur ini masih dalam tahap pengembangan, silahkan Login via Google Account.');
                             }
                           },
                           padding: EdgeInsets.all(15),
@@ -126,7 +131,11 @@ class _LoginPageState extends State<LoginPage> {
                               RaisedButton(
                                 color: HexColor("5574D8"),
                                 padding: EdgeInsets.all(5),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Maaf, fitur ini masih dalam tahap pengembangan, silahkan Login via Google Account.');
+                                },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -136,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                                   children: <Widget>[
                                     Image.asset("assets/images/fbk.png"),
                                     Text(
-                                      'connect with Facebook',
+                                      'Login Via Facebook',
                                       style: TextStyle(color: Colors.white),
                                     )
                                   ],
@@ -145,7 +154,20 @@ class _LoginPageState extends State<LoginPage> {
                               RaisedButton(
                                 color: Colors.white,
                                 padding: EdgeInsets.all(5),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  firebaseAuthFunc
+                                      .logInWithGoogleUser()
+                                      .then((value) {
+                                    if (firebaseAuthFunc.getCurrentUserID() !=
+                                        null) {
+                                      ExtendedNavigator.of(context).push(
+                                          Routes.homePage(isLogin: "true"));
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'Gagal masuk.');
+                                    }
+                                  });
+                                },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -155,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                                   children: <Widget>[
                                     Image.asset(
                                         "assets/images/google_logo.png"),
-                                    Text('connect with Google')
+                                    Text('Login Via Google')
                                   ],
                                 ),
                               ),
@@ -165,11 +187,14 @@ class _LoginPageState extends State<LoginPage> {
                               Center(
                                   child: FlatButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegisterPage()));
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Maaf, fitur ini masih dalam tahap pengembangan, silahkan login via Google Account.');
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             RegisterPage()));
                                 },
                                 child: Text(
                                   'Sign Up',
@@ -183,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Center(
                                     child: FlatButton(
                                   child: Text(
-                                    'Skip',
+                                    'Nanti saja',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 10),
                                   ),

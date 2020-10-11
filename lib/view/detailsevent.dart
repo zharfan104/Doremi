@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:doremi/tabs/category/models/konser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,6 +11,8 @@ import 'package:doremi/app_properties.dart';
 import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/view/organizer.dart';
 import 'package:doremi/view/transaction.dart';
+import 'package:doremi/tabs/components/ticketViewInfo.dart';
+
 import 'package:doremi/view/transaction_user_input.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:scaling_header/scaling_header.dart';
@@ -16,10 +20,10 @@ import 'package:ticket_pass_package/ticket_pass.dart';
 import 'package:ticketview/ticketview.dart';
 
 class DetailsEvent extends StatefulWidget {
-  final String posterphoto;
+  final Konser konser;
   static final String path = "lib/src/pages/hotel/details.dart";
 
-  const DetailsEvent({Key key, this.posterphoto}) : super(key: key);
+  const DetailsEvent({Key key, this.konser}) : super(key: key);
 
   @override
   _DetailsEventState createState() => _DetailsEventState();
@@ -51,161 +55,22 @@ class _DetailsEventState extends State<DetailsEvent>
     super.initState();
   }
 
+  bool sudahLive = false;
+  bool sudahBeli = false;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 600;
 
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(5.3385615, -3.9585525),
     zoom: 14.4746,
   );
-  Widget _getTicketInfoView() {
-    return Center(
-        child: TicketPass(
-            alignment: Alignment.center,
-            separatorHeight: 2.0,
-            color: ticketColor,
-            curve: Curves.easeOut,
-            titleColor: Colors.blue,
-            titleHeight: 0,
-            width: 280,
-            height: 180,
-            shadowColor: Colors.blue.withOpacity(0.5),
-            elevation: 3,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
-              child: Container(
-                height: 140,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Waktu',
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(0.5)),
-                                    ),
-                                    Text(
-                                      '08.00',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Nama',
-                                      style: TextStyle(
-                                        color: Colors.black.withOpacity(0.5),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Konserku',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Tanggal',
-                                    style: TextStyle(
-                                        color: Colors.black.withOpacity(0.5)),
-                                  ),
-                                  Text(
-                                    '4 November 2020',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Harga',
-                                    style: TextStyle(
-                                        color: Colors.black.withOpacity(0.5)),
-                                  ),
-                                  Text(
-                                    '\Rp. 50.000,- ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )));
-  }
 
   static final CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
-
-  void addTransactionToList(Transaction t) {
-    setState(() {
-      _transactions.add(t);
-    });
-  }
-
-  void startAddTransaction(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (_) {
-          return Container(
-            color: darkAqua,
-            child: TransactionUserInput(addTransactionToList),
-            height: 1000,
-          );
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,11 +98,11 @@ class _DetailsEventState extends State<DetailsEvent>
                   },
                 ),
                 title: Text(
-                  'Judul Konser',
+                  widget.konser.namaKonser,
                   style: TextStyle(color: Colors.white),
                 ),
                 flexibleSpace: Image.asset(
-                  widget.posterphoto,
+                  widget.konser.poster,
                   fit: BoxFit.cover,
                   color: Colors.black.withOpacity(0.3),
                   colorBlendMode: BlendMode.srcATop,
@@ -260,7 +125,7 @@ class _DetailsEventState extends State<DetailsEvent>
                             ),
                             SizedBox(width: 8.0),
                             Text(
-                              '15 September',
+                              widget.konser.tanggal,
                               style: TextStyle(color: Colors.white),
                             )
                           ],
@@ -280,7 +145,7 @@ class _DetailsEventState extends State<DetailsEvent>
                               color: Colors.white,
                             ),
                             SizedBox(width: 8.0),
-                            Text('20.00 WIB',
+                            Text('${widget.konser.waktu} WIB',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -348,9 +213,21 @@ class _DetailsEventState extends State<DetailsEvent>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 CountdownTimer(
-                                  endTime: endTime,
+                                  daysSymbol: Text(
+                                    " D ",
+                                    style: TextStyle(
+                                        fontSize: 32, color: Colors.pink),
+                                  ),
+                                  endTime: widget.konser.datetimeTanggal
+                                          .millisecondsSinceEpoch +
+                                      100 * 60 * 60,
+                                  onEnd: () {
+                                    setState(() {
+                                      sudahLive = true;
+                                    });
+                                  },
                                   textStyle: TextStyle(
-                                      fontSize: 40, color: Colors.pink),
+                                      fontSize: 32, color: Colors.pink),
                                 ),
                                 Text('menuju konser')
                               ],
@@ -359,7 +236,7 @@ class _DetailsEventState extends State<DetailsEvent>
                             Container(
                                 padding:
                                     const EdgeInsets.only(left: 15, top: 5),
-                                child: Text("Musician".toUpperCase(),
+                                child: Text("Deskripsi".toUpperCase(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.0))),
@@ -367,11 +244,10 @@ class _DetailsEventState extends State<DetailsEvent>
                             Container(
                                 padding:
                                     const EdgeInsets.only(left: 15, top: 5),
-                                child: Text(
-                                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione architecto autem quasi nisi iusto eius ex dolorum velit! Atque, veniam! Atque incidunt laudantium eveniet sint quod harum facere numquam molestias?",
+                                child: Text(widget.konser.deskripsi,
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w300,
+                                        // fontWeight: FontWeight.bold,
                                         fontSize: 14.0))),
                             Container(
                               // width: MediaQuery.of(context).size.width / 1,
@@ -413,7 +289,57 @@ class _DetailsEventState extends State<DetailsEvent>
                                       padding: const EdgeInsets.all(4.0),
                                       child: Column(
                                         children: [
-                                          _getTicketInfoView(),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 10,
+                                                ),
+                                                child: Text(
+                                                    "Presale 1 (60 Days before concerts)",
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15.0,
+                                                        color: Colors.black))),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TicketViewInfo(
+                                                nama: widget.konser.namaKonser,
+                                                harga: widget.konser.harga,
+                                                tanggal: widget.konser.tanggal,
+                                                waktu: widget.konser.waktu),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 10,
+                                                ),
+                                                child: Text(
+                                                    "Presale 2 (30 Days before concerts)",
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15.0,
+                                                        color: Colors.black))),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TicketViewInfo(
+                                                nama: widget.konser.namaKonser,
+                                                harga:
+                                                    widget.konser.harga + 50000,
+                                                tanggal: widget.konser.tanggal,
+                                                waktu: widget.konser.waktu),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -423,14 +349,68 @@ class _DetailsEventState extends State<DetailsEvent>
                                       padding: const EdgeInsets.all(4.0),
                                       child: Column(
                                         children: [
-                                          Text(
-                                              "Coming Soon, Ticket With Exclusive Merch"),
-                                          SizedBox(
-                                            height: 10.0,
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 10,
+                                                ),
+                                                child: Text(
+                                                    "Limited Edition Ticket With Merch",
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15.0,
+                                                        color: Colors.black))),
                                           ),
-                                          _getTicketInfoView(),
+                                          TicketViewInfo(
+                                              nama: widget.konser.namaKonser,
+                                              harga:
+                                                  widget.konser.harga + 200000,
+                                              tanggal: widget.konser.tanggal,
+                                              waktu: widget.konser.waktu),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 10,
+                                                ),
+                                                child: Text("Merch",
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15.0,
+                                                        color: Colors.black))),
+                                          ),
                                           Container(
-                                            height: 200.0,
+                                            height: 150.0,
+                                            child: Image.asset(
+                                                'assets/images/merch-hindia.png'),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 0,
+                                                  top: 10,
+                                                ),
+                                                child: Text("Size Chart",
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15.0,
+                                                        color: Colors.black))),
+                                          ),
+                                          Container(
+                                            height: 150.0,
                                             child: Image.asset(
                                                 'assets/images/kaos.jpg'),
                                           ),
@@ -459,21 +439,12 @@ class _DetailsEventState extends State<DetailsEvent>
           Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                width: w,
-                padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(34),
-                  ),
-                  onPressed: () async {
-                    startAddTransaction(context);
-                  },
-                  padding: EdgeInsets.all(15),
-                  color: darkBlack,
-                  child:
-                      Text('Beli Tiket', style: TextStyle(color: Colors.white)),
-                ),
-              ))
+                  width: w,
+                  padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+                  child: TombolBeli(
+                    sudahBeli: sudahBeli,
+                    sudahLive: sudahLive,
+                  )))
         ],
       ),
     );
@@ -594,5 +565,67 @@ class _DetailsEventState extends State<DetailsEvent>
       )));
     }
     return listings;
+  }
+}
+
+class TombolBeli extends StatelessWidget {
+  final bool sudahBeli;
+  final bool sudahLive;
+
+  const TombolBeli({Key key, this.sudahBeli, this.sudahLive}) : super(key: key);
+  void startAddTransaction(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return Container(
+            color: darkAqua,
+            child: TransactionUserInput(),
+            height: 1200,
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (sudahBeli) {
+      if (sudahLive) {
+        return RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(34),
+          ),
+          onPressed: () async {
+            startAddTransaction(context);
+          },
+          padding: EdgeInsets.all(15),
+          color: Colors.red,
+          child: Text('Tonton Sekarang', style: TextStyle(color: Colors.white)),
+        );
+      } else {
+        return RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(34),
+          ),
+          onPressed: () async {
+            startAddTransaction(context);
+          },
+          padding: EdgeInsets.all(15),
+          color: darkBlack,
+          child: Text('Anda Sudah Tidak Bisa Beli Tiket',
+              style: TextStyle(color: Colors.white)),
+        );
+      }
+    } else {
+      return RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(34),
+        ),
+        onPressed: () async {
+          startAddTransaction(context);
+        },
+        padding: EdgeInsets.all(15),
+        color: darkBlack,
+        child: Text('Beli Tiket', style: TextStyle(color: Colors.white)),
+      );
+    }
   }
 }

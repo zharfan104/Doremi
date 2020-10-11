@@ -6,11 +6,11 @@ import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
 import 'package:doremi/view/transaction.dart';
 import 'package:ticket_pass_package/ticket_pass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:doremi/tabs/category/models/listKonser.dart';
 
 class TransactionUserInput extends StatefulWidget {
-  final Function addTransaction;
-
-  TransactionUserInput(this.addTransaction);
+  TransactionUserInput();
 
   @override
   _TransactionUserInputState createState() => _TransactionUserInputState();
@@ -139,35 +139,31 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-
+  bool isMerch = false;
   DateTime selectedDate;
-  List<String> sample = <String>[
-    'Sample data 1',
-    'Sample data 2',
-    'Sample data 3',
-    'Sample data 4',
-    'Sample data 5',
-    'Sample data 6',
-    'Sample data 7',
-    'Sample data 8'
-  ];
 
   void submitData() {
-    String inputString = titleController.text;
-    double inputDouble = double.parse(amountController.text);
+    // String inputString = titleController.text;
+    // double inputDouble = double.parse(amountController.text);
 
-    if (inputString.isEmpty || inputDouble < 0 || selectedDate == null) {
-      return;
-    } else {
-      widget.addTransaction(Transaction(
-        title: inputString,
-        amount: inputDouble,
-        id: 1,
-        date: selectedDate,
-      ));
-    }
+    // if (inputString.isEmpty || inputDouble < 0 || selectedDate == null) {
+    //   return;
+    // } else {
+    //   widget.addTransaction(Transaction(
+    //     title: inputString,
+    //     amount: inputDouble,
+    //     id: 1,
+    //     date: selectedDate,
+    //   ));
+    // }
 
     Navigator.of(context).pop(); // removes showModalBottomSheet
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(isMerch);
   }
 
   @override
@@ -197,13 +193,27 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
               autovalidate: true,
               child: Column(
                 children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        padding: const EdgeInsets.only(
+                          left: 0,
+                          top: 10,
+                        ),
+                        child: Text("Harga Tiket : Rp. 50.000,-",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                                color: Colors.black))),
+                  ),
                   Container(
                       padding: const EdgeInsets.only(
                         left: 0,
                         top: 10,
                       ),
                       child: Text(
-                          "Kamu memiliki satu permintaan ke musisi yang kamu mau ketika membeli tiket, dan akan dijawab ketika live concert. Pertanyaan akan dipilih secara acak.",
+                          "Kamu memiliki satu pertanyaan ke musisi yang kamu mau ketika membeli tiket, dan akan dijawab ketika live concert. Pertanyaan akan dipilih secara acak.",
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                               fontWeight: FontWeight.w300,
@@ -228,9 +238,26 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                     selectedColor: lightAqua,
                     selectedShadowColor: Colors.black,
                     disabledColor: Colors.black,
+                    decoration: InputDecoration(
+                        labelText: "Jenis Tiket",
+                        fillColor: Colors.black,
+                        focusColor: Colors.black,
+                        hoverColor: Colors.black),
                     validators: [
                       FormBuilderValidators.required(),
                     ],
+                    onChanged: (value) {
+                      print(value);
+                      if (value == 'TicketMerch') {
+                        setState(() {
+                          isMerch = true;
+                        });
+                      } else {
+                        setState(() {
+                          isMerch = false;
+                        });
+                      }
+                    },
                     options: [
                       FormBuilderFieldOption(
                           child: Text("Ticket Only"), value: "ticket"),
@@ -238,13 +265,58 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                         child: Text(
                           "Ticket & Merch",
                         ),
-                        value: "ticketMerch",
+                        value: "TicketMerch",
                       ),
                     ],
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
+                  isMerch
+                      ? FormBuilderChoiceChip(
+                          decoration: InputDecoration(
+                              labelText: "Ukuran T-shirt",
+                              fillColor: Colors.black,
+                              focusColor: Colors.black,
+                              hoverColor: Colors.black),
+                          attribute: "ukuranTshirt",
+                          selectedColor: lightAqua,
+                          selectedShadowColor: Colors.black,
+                          disabledColor: Colors.black,
+                          validators: [
+                            FormBuilderValidators.required(),
+                          ],
+                          options: [
+                            FormBuilderFieldOption(
+                                child: Text("S"), value: "s"),
+                            FormBuilderFieldOption(
+                                child: Text("M"), value: "m"),
+                            FormBuilderFieldOption(
+                                child: Text("L"), value: "l"),
+                            FormBuilderFieldOption(
+                                child: Text("XL"), value: "xl"),
+                          ],
+                        )
+                      : Container(),
+                  isMerch
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FormBuilderTextField(
+                            attribute: "Alamat Lengkap",
+                            decoration: InputDecoration(
+                                labelText: "Alamat Pengiriman Merch",
+                                fillColor: Colors.black,
+                                focusColor: Colors.black,
+                                hoverColor: Colors.black),
+                            maxLines: 4,
+                            maxLength: 2000,
+                            validators: [
+                              FormBuilderValidators.required(),
+                              FormBuilderValidators.maxLength(120),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   Container(
                     width: double.infinity,
                     child: RaisedButton(
@@ -253,6 +325,18 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                       ),
                       onPressed: () async {
                         if (_fbKey.currentState.saveAndValidate()) {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          int jum = prefs.getInt(Teks.jumTiket);
+                          if (jum == null) {
+                            await prefs.setInt(Teks.jumTiket, 1);
+                          } else {
+                            if (jum <= listKonser.length) {
+                              await prefs.setInt(Teks.jumTiket, jum + 1);
+                            } else {
+                              await prefs.setInt(Teks.jumTiket, jum);
+                            }
+                          }
                           print(_fbKey.currentState.value);
                           ExtendedNavigator.of(context).push(
                             Routes.checkOutPage,
@@ -275,15 +359,19 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(34),
                       ),
-                      onPressed: () async {
+                      onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.only(
+                          bottom: 15.0, left: 15.0, top: 15.0, right: 15.0),
                       color: Colors.white,
                       child:
                           Text('Kembali', style: TextStyle(color: darkBlack)),
                     ),
                   ),
+                  SizedBox(
+                    height: 130.0,
+                  )
                 ],
               ),
             ),

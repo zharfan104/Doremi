@@ -1,6 +1,8 @@
 import 'package:doremi/services/firestoreFunc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:doremi/app_properties.dart';
 
 class FirebaseAuthFunc {
   ///[FUNGSI-FUNGSI FIREBASE AUTH]
@@ -33,6 +35,8 @@ class FirebaseAuthFunc {
   //Output : -
   Future<void> registrationUser(String email, String password) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -42,6 +46,9 @@ class FirebaseAuthFunc {
       final String uid = userCredential.user.uid;
       final String namaUser = userCredential.user.displayName;
       final String emailUser = userCredential.user.email;
+      await prefs.setString(Teks.namaUser, namaUser);
+      await prefs.setString(Teks.uid, uid);
+      await prefs.setString(Teks.emailUser, emailUser);
 
       //Create data in firestore
       _firestoreFunc.addUser(uid, namaUser, emailUser);
@@ -88,12 +95,13 @@ class FirebaseAuthFunc {
   //Fungsi mendapatkan pengguna saat ini
   //input : -
   //Output : -
-  void getCurrentUserID() {
+  String getCurrentUserID() {
     FirebaseAuth auth = FirebaseAuth.instance;
     if (auth.currentUser != null) {
       print("ID USER : ${auth.currentUser.uid}");
+      return auth.currentUser.uid;
     } else {
-      print("User tidak ada user login");
+      return null;
     }
   }
 
@@ -141,6 +149,8 @@ class FirebaseAuthFunc {
   //input : -
   //Output : -
   Future<void> logInWithGoogleUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
@@ -162,7 +172,11 @@ class FirebaseAuthFunc {
     final String namaUser = userCredential.user.displayName;
     final String emailUser = userCredential.user.email;
 
+    await prefs.setString(Teks.namaUser, namaUser);
+    await prefs.setString(Teks.uid, uid);
+    await prefs.setString(Teks.emailUser, emailUser);
     //Create data in firestore
+
     _firestoreFunc.addUser(uid, namaUser, emailUser);
   }
 

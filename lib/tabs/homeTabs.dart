@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doremi/tabs/category/models/konser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 
@@ -12,6 +14,8 @@ import 'package:doremi/router.gr.dart';
 import 'package:doremi/settings/HexColor.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:doremi/tabs/category/models/category.dart';
+import 'package:doremi/tabs/category/models/listKonser.dart';
+
 import 'package:doremi/view/detailsevent.dart';
 import 'package:doremi/view/filter.dart';
 import 'package:line_icons/line_icons.dart';
@@ -87,7 +91,41 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       'assets/jeans_5.png',
     ),
   ];
-  TextEditingController searchController = TextEditingController();
+  List<Konser> ConcertList;
+
+  void getData() async {
+    List listOfConcerts = await FirebaseFirestore.instance
+        .collection("concerts")
+        .get()
+        .then((val) => val.docs);
+    print(listOfConcerts.length);
+    for (int i = 0; i < listOfConcerts.length; i++) {
+      FirebaseFirestore.instance
+          .collection("concerts")
+          .snapshots()
+          .listen(createListofCourses);
+    }
+  }
+
+  createListofCourses(QuerySnapshot snapshot) async {
+    var docs = snapshot.docs;
+    List<Konser> concertList = List<Konser>();
+    for (var Doc in docs) {
+      concertList.add(Konser.fromFireStore(Doc));
+    }
+    setState() {
+      ConcertList = concertList;
+    }
+  }
+
+  TextEditingController searchController;
+  @override
+  void initState() {
+    searchController = new TextEditingController();
+    getData();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +217,8 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
             child: new Swiper(
               onTap: (index) {
                 ExtendedNavigator.of(context).push(Routes.detailsEvent,
-                    arguments: DetailsEventArguments(
-                        posterphoto: "assets/poster_konser/${index + 1}.png"));
+                    arguments:
+                        DetailsEventArguments(konser: listKonser[index]));
               },
               layout: SwiperLayout.DEFAULT,
               loop: true,
@@ -194,9 +232,8 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                   duration: Duration(milliseconds: 110),
                   onPressed: () {
                     ExtendedNavigator.of(context).push(Routes.detailsEvent,
-                        arguments: DetailsEventArguments(
-                            posterphoto:
-                                "assets/poster_konser/${index + 1}.png"));
+                        arguments:
+                            DetailsEventArguments(konser: listKonser[index]));
                   },
                   child: Container(
                       decoration: BoxDecoration(boxShadow: [
@@ -213,7 +250,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: new Image.asset(
-                                  "assets/poster_konser/${index + 1}.png",
+                                  listKonser[index].poster,
                                   fit: BoxFit.cover,
                                   // width: 255,
                                   height: 325,
@@ -243,7 +280,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                                               color: Colors.white,
                                             ),
                                           ),
-                                          Text('Sat, 17 Oct',
+                                          Text(listKonser[index].tanggal,
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
@@ -269,7 +306,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
                                               color: Colors.white,
                                             ),
                                           ),
-                                          Text('20.00',
+                                          Text(listKonser[index].waktu,
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,

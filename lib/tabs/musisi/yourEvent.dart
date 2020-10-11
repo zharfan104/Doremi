@@ -4,6 +4,8 @@ import 'package:doremi/tabs/components/ticketView.dart';
 import 'package:flutter/material.dart';
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/settings/HexColor.dart';
+import 'package:doremi/tabs/category/models/listKonser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class YourEvent extends StatefulWidget {
   YourEvent({Key key}) : super(key: key);
@@ -12,6 +14,20 @@ class YourEvent extends StatefulWidget {
 }
 
 class _YourEventState extends State<YourEvent> {
+  int jum = 0;
+  void getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      jum = prefs.getInt(Teks.jumTiket);
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -52,9 +68,13 @@ class _YourEventState extends State<YourEvent> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: AddTicketView(),
-                ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemBuilder: (ctx, int) {
+                        return AddTicketView();
+                      },
+                      itemCount: jum,
+                    )),
                 MusicianTicketView(),
               ])
         ],

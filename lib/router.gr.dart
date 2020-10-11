@@ -13,6 +13,7 @@ import 'tabs/accountPage/payment/payment_page.dart';
 import 'tabs/accountPage/settings/change_account.dart';
 import 'tabs/accountPage/settings/notifications_settings_page.dart';
 import 'tabs/accountPage/settings/settings_page.dart';
+import 'tabs/category/models/konser.dart';
 import 'tabs/musisi/addEvent.dart';
 import 'tabs/musisi/homeMusisi.dart';
 import 'tabs/musisi/inginKonser.dart';
@@ -126,7 +127,7 @@ class Router extends RouterBase {
       return PageRouteBuilder<bool>(
         pageBuilder: (context, animation, secondaryAnimation) => DetailsEvent(
           key: args.key,
-          posterphoto: args.posterphoto,
+          konser: args.konser,
         ),
         settings: data,
         transitionsBuilder: TransitionsBuilders.zoomIn,
@@ -228,8 +229,8 @@ class HomePageArguments {
 /// DetailsEvent arguments holder class
 class DetailsEventArguments {
   final Key key;
-  final String posterphoto;
-  DetailsEventArguments({this.key, this.posterphoto});
+  final Konser konser;
+  DetailsEventArguments({this.key, this.konser});
 }
 
 /// HomeMusisi arguments holder class

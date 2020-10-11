@@ -12,8 +12,8 @@ import 'package:ticket_pass_package/ticket_pass.dart';
 
 class TicketView extends StatelessWidget {
   final Color bgcolor;
-  final Konser konser;
-  TicketView({this.bgcolor, this.konser});
+  final int index;
+  TicketView({this.bgcolor, this.index});
   @override
   Widget build(BuildContext context) {
     openPopup() {

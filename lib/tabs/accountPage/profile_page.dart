@@ -9,10 +9,35 @@ import 'package:doremi/tabs/accountPage/settings/settings_page.dart';
 import 'package:doremi/tabs/accountPage/tracking_page.dart';
 import 'package:doremi/tabs/accountPage/wallet/wallet_page.dart';
 import 'package:doremi/app_properties.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   TextStyle defaultStyle = TextStyle(color: Colors.white, fontSize: 8.0);
+
   TextStyle linkStyle = TextStyle(color: Colors.blue);
+  String nama = '';
+
+  void getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (prefs.getString(Teks.namaUser) != null) {
+        nama = prefs.getString(Teks.namaUser);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,7 +62,7 @@ class ProfilePage extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  'Zharfan104',
+                  nama,
                   style: TextStyle(color: Colors.white),
                 ),
                 subtitle:

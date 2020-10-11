@@ -56,6 +56,7 @@ dependencies:
   firebase_storage: ^4.0.0
   google_sign_in: ^4.5.4
   image_picker: ^0.6.7+7
+  json_serializable: ^3.5.0
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,7 @@ flutter:
     - assets/images/help-active.png
     - assets/images/help.png
     - assets/images/home-active.png
+    - assets/images/belumbeli.png
     - assets/images/home.png
     - assets/images/icon.png
     - assets/images/logo app.png
