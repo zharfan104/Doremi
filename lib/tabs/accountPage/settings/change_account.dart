@@ -22,7 +22,7 @@ class changeAccountPage extends StatelessWidget {
                         ExtendedNavigator.of(context).pop();
                       }),
                   Text(
-                    'Settings',
+                    'Pengaturan',
                     style:
                         TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
                   ),

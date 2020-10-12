@@ -236,7 +236,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
                     //   badgeContent: Text('3'),
                     // // ),
                     // leading: Icon(Icons.home),
-                    title: Text('Settings',
+                    title: Text('Pengaturan',
                         style: TextStyle(
                             color: HexColor("ffffff").withOpacity(0.6),
                             fontSize: 18)),

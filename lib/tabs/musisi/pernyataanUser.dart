@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/utils/listPernyataanUser.dart';
@@ -38,7 +39,15 @@ class _QNEViewersState extends State<QNEViewers> {
           centerTitle: true,
           backgroundColor: darkBlack,
           elevation: 0,
-          leading: Icon(null),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+            },
+          ),
           title: Padding(
             padding: const EdgeInsets.only(
                 bottom: 60.0, top: 60.0, right: 80.0, left: 40.0),
@@ -106,7 +115,7 @@ class _QNEViewersState extends State<QNEViewers> {
                                 border: Border.all(color: darkAqua, width: 5),
                                 borderRadius: BorderRadius.circular(8)),
                             child: Text(
-                              '${listPertanyaan[0]["pertanyaan"]}\n(${listPertanyaan[0]["nama"]})',
+                              '${listPertanyaan[1]["pertanyaan"]}\n(${listPertanyaan[1]["nama"]})',
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
@@ -121,7 +130,7 @@ class _QNEViewersState extends State<QNEViewers> {
                                 border: Border.all(color: darkAqua, width: 5),
                                 borderRadius: BorderRadius.circular(8)),
                             child: Text(
-                              '${listPertanyaan[0]["pertanyaan"]}\n(${listPertanyaan[0]["nama"]})',
+                              '${listPertanyaan[2]["pertanyaan"]}\n(${listPertanyaan[2]["nama"]})',
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,

@@ -3,6 +3,8 @@ import 'package:doremi/services/firabaseAuthFunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:doremi/router.gr.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/tabs/accountPage/faq_page.dart';
 import 'package:doremi/tabs/accountPage/payment/payment_page.dart';
@@ -134,6 +136,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   Icons.chevron_right,
                   color: Colors.white,
                 ),
+                onTap: () {
+                  Fluttertoast.showToast(
+                      msg: "Fitur ini masih dalam tahap pengembangan.");
+                },
               ),
               Divider(),
               (nama == "")

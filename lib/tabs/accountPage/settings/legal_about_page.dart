@@ -21,7 +21,7 @@ class _LegalAboutPageState extends State<LegalAboutPage> {
         brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         title: Text(
-          'Settings',
+          'Pengaturan',
           style: TextStyle(color: darkGrey),
         ),
         elevation: 0,

@@ -59,7 +59,7 @@ class _HomeMusisiState extends State<HomeMusisi> with TickerProviderStateMixin {
               title: Padding(
                 padding: const EdgeInsets.only(
                     bottom: 60.0, top: 60.0, right: 80.0, left: 40.0),
-                child: Image.asset('assets/images/app logo.png'),
+                child: Image.asset('assets/images/doremistudio.png'),
               )),
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),

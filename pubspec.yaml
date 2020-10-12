@@ -67,7 +67,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.7.3
   shared_preferences: ^0.5.12
   fluttertoast: ^7.1.1
-
+  fl_chart: ^0.11.0
+  charts_flutter: ^0.9.0
   auto_route_generator: ^0.6.8
   build_runner:
 flutter_icons:
@@ -124,6 +125,7 @@ flutter:
     - assets/images/musician.png
     - assets/images/profile-active.png
     - assets/images/profile.png
+    - assets/images/doremistudio.png
     - assets/images/qna-active.png
     - assets/images/qna.png
     - assets/images/qr.png

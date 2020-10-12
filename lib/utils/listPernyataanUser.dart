@@ -8,15 +8,15 @@ var listPertanyaan = [
     'pertanyaan': 'Kakak Kunto Aji suka makan apa?',
   },
   {
-    'nama': 'Ramadhan Akbar',
+    'nama': 'Akbar',
     'pertanyaan': 'Kakak Kunto Aji asli mana ka?',
   },
   {
-    'nama': 'Ramadhan Ingkafi',
+    'nama': 'Ingkafi',
     'pertanyaan': 'Kenapa memilih jadi musisi?',
   },
   {
-    'nama': 'Ahmad Supoyo',
+    'nama': 'Supoyo',
     'pertanyaan': 'Kakak Kunto Aji lahir dimana ka?',
   },
   {
@@ -24,7 +24,7 @@ var listPertanyaan = [
     'pertanyaan': 'Kakak Kunto Aji suka boneka?',
   },
   {
-    'nama': 'Ramadhani Hanum',
+    'nama': 'Hanum',
     'pertanyaan': 'Apa pendapat kakak tentang omnibus law?',
   },
   {
@@ -36,7 +36,7 @@ var listPertanyaan = [
     'pertanyaan': 'Bener ga kak, kalo kakak ga suka sayur?',
   },
   {
-    'nama': 'Ramadhan Pratama',
+    'nama': 'Aji',
     'pertanyaan': 'Kakak suka kucing ga?',
   },
 ];

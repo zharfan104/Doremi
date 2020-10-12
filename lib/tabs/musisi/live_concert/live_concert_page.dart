@@ -6,13 +6,15 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 
 class LiveConcertPage extends StatefulWidget {
+  final ClientRole role;
+
+  const LiveConcertPage({Key key, this.role}) : super(key: key);
+
   @override
   _LiveConcertPageState createState() => _LiveConcertPageState();
 }
 
 class _LiveConcertPageState extends State<LiveConcertPage> {
-  ClientRole role = ClientRole.Broadcaster;
-
   final _users = <int>[];
   final _infoStrings = <String>[];
   bool muted = false;
@@ -61,7 +63,7 @@ class _LiveConcertPageState extends State<LiveConcertPage> {
     _engine = await RtcEngine.create(APP_ID);
     await _engine.enableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    await _engine.setClientRole(role);
+    await _engine.setClientRole(widget.role);
   }
 
   /// Add agora event handlers
@@ -104,7 +106,7 @@ class _LiveConcertPageState extends State<LiveConcertPage> {
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<StatefulWidget> list = [];
-    if (role == ClientRole.Broadcaster) {
+    if (widget.role == ClientRole.Broadcaster) {
       list.add(RtcLocalView.SurfaceView());
     }
     _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
@@ -208,7 +210,7 @@ class _LiveConcertPageState extends State<LiveConcertPage> {
 
   /// Toolbar layout
   Widget _toolbar() {
-    if (role == ClientRole.Audience) return Container();
+    if (widget.role == ClientRole.Audience) return Container();
     return Container(
       alignment: Alignment.bottomCenter,
       padding: const EdgeInsets.symmetric(vertical: 48),

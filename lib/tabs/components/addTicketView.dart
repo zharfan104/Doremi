@@ -64,7 +64,7 @@ class AddTicketView extends StatelessWidget {
                             ExtendedNavigator.of(context).push(Routes.addEvent);
                           }),
                       Text(
-                        "Tambah Event",
+                        "Tambah Konser",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       )

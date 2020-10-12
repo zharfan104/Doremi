@@ -6,6 +6,7 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ import 'tabs/category/models/konser.dart';
 import 'tabs/musisi/addEvent.dart';
 import 'tabs/musisi/homeMusisi.dart';
 import 'tabs/musisi/inginKonser.dart';
+import 'tabs/musisi/live_concert/live_concert_page.dart';
 import 'tabs/shop/check_out_page.dart';
 import 'tabs/shop/order_berhasil.dart';
 import 'view/detailsevent.dart';
@@ -41,6 +43,7 @@ class Routes {
   static const String notificationSettingsPage = '/notification-settings-page';
   static const String changeAccountPage = '/change-account-page';
   static const String addEvent = '/add-event';
+  static const String liveConcertPage = '/live-concert-page';
   static const all = <String>{
     InitialRoute,
     loginPage,
@@ -56,6 +59,7 @@ class Routes {
     notificationSettingsPage,
     changeAccountPage,
     addEvent,
+    liveConcertPage,
   };
 }
 
@@ -77,6 +81,7 @@ class Router extends RouterBase {
     RouteDef(Routes.notificationSettingsPage, page: NotificationSettingsPage),
     RouteDef(Routes.changeAccountPage, page: changeAccountPage),
     RouteDef(Routes.addEvent, page: AddEvent),
+    RouteDef(Routes.liveConcertPage, page: LiveConcertPage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -206,6 +211,20 @@ class Router extends RouterBase {
         transitionsBuilder: TransitionsBuilders.fadeIn,
       );
     },
+    LiveConcertPage: (data) {
+      final args = data.getArgs<LiveConcertPageArguments>(
+        orElse: () => LiveConcertPageArguments(),
+      );
+      return PageRouteBuilder<bool>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            LiveConcertPage(
+          key: args.key,
+          role: args.role,
+        ),
+        settings: data,
+        transitionsBuilder: TransitionsBuilders.fadeIn,
+      );
+    },
   };
 }
 
@@ -238,4 +257,11 @@ class HomeMusisiArguments {
   final Key key;
   final int index;
   HomeMusisiArguments({this.key, this.index});
+}
+
+/// LiveConcertPage arguments holder class
+class LiveConcertPageArguments {
+  final Key key;
+  final ClientRole role;
+  LiveConcertPageArguments({this.key, this.role});
 }

@@ -52,7 +52,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
         brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         title: Text(
-          'Settings',
+          'Pengaturan',
           style: TextStyle(color: darkGrey),
         ),
         elevation: 0,
@@ -79,25 +79,16 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[
                     ListTile(
-                      title: Text('My orders'),
+                      title: Text('Konser baru'),
                       trailing: platformSwitch(myOrders),
                     ),
                     ListTile(
-                      title: Text('Reminders'),
+                      title: Text('Pengingat'),
                       trailing: platformSwitch(reminders),
                     ),
                     ListTile(
-                      title: Text('New Offers'),
-                      trailing: platformSwitch(newOffers),
-                    ),
-                    ListTile(
-                        title: Text('Feedbacks and Reviews'),
-                        trailing: platformSwitch(
-                          feedbackReviews,
-                        )),
-                    ListTile(
                       title: Text('Updates'),
-                      trailing: platformSwitch(updates),
+                      trailing: platformSwitch(newOffers),
                     ),
                   ],
                 ),

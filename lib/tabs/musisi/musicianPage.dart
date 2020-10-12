@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:doremi/services/firabaseAuthFunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:doremi/router.gr.dart';
@@ -9,10 +10,13 @@ import 'package:doremi/tabs/accountPage/settings/settings_page.dart';
 import 'package:doremi/tabs/accountPage/tracking_page.dart';
 import 'package:doremi/tabs/accountPage/wallet/wallet_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:doremi/app_properties.dart';
 
 class MusicianProfilePage extends StatelessWidget {
+  FirebaseAuthFunc firebaseAuthFunc = new FirebaseAuthFunc();
+
   TextStyle defaultStyle = TextStyle(color: Colors.white, fontSize: 8.0);
   TextStyle linkStyle = TextStyle(color: Colors.blue);
   @override
@@ -39,7 +43,7 @@ class MusicianProfilePage extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  'Zharfan104',
+                  'Profil Musisi',
                   style: TextStyle(color: Colors.white),
                 ),
                 subtitle:
@@ -70,8 +74,8 @@ class MusicianProfilePage extends StatelessWidget {
                   color: Colors.white,
                   size: 24.0,
                 ),
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => SettingsPage())),
+                onTap: () => Fluttertoast.showToast(
+                    msg: "Fitur ini masin dalam tahap pengembangan"),
               ),
               Divider(),
               ListTile(
@@ -118,8 +122,9 @@ class MusicianProfilePage extends StatelessWidget {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           await prefs.setBool(Teks.isIntroDone, false);
-                          ExtendedNavigator.of(context)
-                              .push(Routes.InitialRoute);
+                          await firebaseAuthFunc.logOutUser();
+                          ExtendedNavigator.of(context).pushAndRemoveUntil(
+                              Routes.InitialRoute, (route) => false);
                         },
                         padding: EdgeInsets.all(15),
                         color: HexColor("C52127"),

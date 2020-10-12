@@ -48,7 +48,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         title: Text(
-          'Settings',
+          'Pengaturan',
           style: TextStyle(color: darkGrey),
         ),
         elevation: 0,

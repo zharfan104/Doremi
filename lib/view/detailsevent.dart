@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:doremi/router.gr.dart';
 import 'package:doremi/services/firabaseAuthFunc.dart';
@@ -19,6 +20,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:doremi/view/transaction_user_input.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:scaling_header/scaling_header.dart';
 import 'package:ticket_pass_package/ticket_pass.dart';
 import 'package:ticketview/ticketview.dart';
@@ -603,6 +605,11 @@ class TombolBeli extends StatelessWidget {
   final bool sudahLive;
   final bool isLogin;
   final String keySudahBeli;
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
 
   const TombolBeli(
       {Key key,
@@ -634,8 +641,9 @@ class TombolBeli extends StatelessWidget {
             borderRadius: BorderRadius.circular(34),
           ),
           onPressed: () async {
-            Fluttertoast.showToast(
-                msg: "Silahkan tunggu hingga waktu konser tiba.");
+            await _handleCameraAndMic();
+            ExtendedNavigator.of(context).push(Routes.liveConcertPage,
+                arguments: LiveConcertPageArguments(role: ClientRole.Audience));
             //tama
           },
           padding: EdgeInsets.all(15),

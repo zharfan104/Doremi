@@ -1,3 +1,4 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
@@ -5,6 +6,7 @@ import 'package:doremi/settings/HexColor.dart';
 import 'package:doremi/tabs/category/models/konser.dart';
 import 'package:doremi/tabs/musisi/live_concert/live_concert_page.dart';
 import 'package:doremi/tabs/musisi/pernyataanUser.dart';
+import 'package:doremi/tabs/musisi/visualisasipage.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
@@ -194,15 +196,44 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
               titleColor: Colors.blue,
               titleHeight: 0,
               width: 280,
-              height: 230,
+              height: 300,
               shadowColor: Colors.blue.withOpacity(0.5),
               elevation: 3,
+              shouldExpand: true,
+              expansionChild: Container(
+                color: Colors.black,
+                height: 200,
+              ),
+              expandedHeight: 500,
+              shrinkIcon: CircleAvatar(
+                maxRadius: 14,
+                child: Icon(
+                  Icons.keyboard_arrow_up,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+              expandIcon: CircleAvatar(
+                maxRadius: 14,
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+              expansionTitle: Text(
+                'Purchased By',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              ticketTitle: Text("asd"),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
                 child: Container(
                   color: darkAqua,
-                  height: 220,
+                  height: 280,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: Column(
@@ -312,14 +343,17 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    FlatButton(
-                                      color: darkBlack,
-                                      onPressed: () {
+                                    RaisedButton(
+                                      color: Colors.transparent,
+                                      onPressed: () async {
+                                        // await for camera and mic permissions before pushing video page
+                                        await _handleCameraAndMic();
+                                        // push video page with given channel name
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    QNEViewers()));
+                                                    VisualisasiPage()));
                                       },
                                       child: Row(
                                         mainAxisAlignment:
@@ -328,14 +362,14 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Icon(
-                                            LineIcons.question_circle,
+                                            Icons.music_note,
                                             color: Colors.white,
                                           ),
                                           SizedBox(
                                             width: 5.0,
                                           ),
                                           Text(
-                                            "QNA Viewers",
+                                            "Detail Konser",
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -360,6 +394,53 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
                                   children: <Widget>[
                                     FlatButton(
                                       color: darkBlack,
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QNEViewers()));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/qna.png",
+                                            fit: BoxFit.scaleDown,
+                                            height: 25.0,
+                                          ),
+                                          SizedBox(
+                                            width: 5.0,
+                                          ),
+                                          Text(
+                                            "Questions",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    RaisedButton(
+                                      color: Colors.red,
                                       onPressed: () async {
                                         // await for camera and mic permissions before pushing video page
                                         await _handleCameraAndMic();
@@ -368,7 +449,9 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LiveConcertPage()));
+                                                    LiveConcertPage(
+                                                        role: ClientRole
+                                                            .Broadcaster)));
                                       },
                                       child: Row(
                                         mainAxisAlignment:

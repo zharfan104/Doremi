@@ -250,6 +250,7 @@ class AddEventState extends State<AddEvent> {
                           .contains('TicketMerch'));
                       if (_fbKey.currentState.saveAndValidate()) {
                         print(_fbKey.currentState.value);
+                        Fluttertoast.showToast(msg: "Silahkan kirim email ke manajemen@doremi.co.id untuk info lebih lanjut.");
                       } else {
                         print(_fbKey.currentState.value);
                         print('validation failed');

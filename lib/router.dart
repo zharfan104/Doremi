@@ -7,6 +7,7 @@ import 'package:doremi/tabs/musisi/homeMusisi.dart';
 import 'package:doremi/tabs/accountPage/settings/change_account.dart';
 import 'package:doremi/tabs/accountPage/settings/notifications_settings_page.dart';
 import 'package:doremi/tabs/musisi/inginKonser.dart';
+import 'package:doremi/tabs/musisi/live_concert/live_concert_page.dart';
 import 'package:doremi/tabs/shop/check_out_page.dart';
 import 'package:doremi/tabs/shop/order_berhasil.dart';
 import 'package:doremi/view/detailsevent.dart';
@@ -49,6 +50,9 @@ import 'package:doremi/view/splash.dart';
         transitionsBuilder: TransitionsBuilders.slideLeft),
     CustomRoute<bool>(
         page: AddEvent, transitionsBuilder: TransitionsBuilders.fadeIn),
+    CustomRoute<bool>(
+        page: LiveConcertPage, transitionsBuilder: TransitionsBuilders.fadeIn),
+
     // MaterialRoute(path: "*", page: HomePage)
   ],
 )

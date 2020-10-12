@@ -43,16 +43,6 @@ class SettingsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(
-                                'General',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0),
-                              ),
-                            ),
                             ListTile(
                               title: Text('Akun'),
                               leading: Icon(Icons.account_circle),

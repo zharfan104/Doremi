@@ -33,7 +33,7 @@ class _ChangeCountryPageState extends State<ChangeLanguagePage> {
         ),
         backgroundColor: Colors.transparent,
         title: Text(
-          'Settings',
+          'Pengaturan',
           style: TextStyle(color: darkGrey),
         ),
         elevation: 0,
