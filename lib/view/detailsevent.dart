@@ -43,6 +43,7 @@ class _DetailsEventState extends State<DetailsEvent>
 
   double h;
   double w;
+  String namaUser;
   TabController _tabController;
   @override
   void initState() {
@@ -56,7 +57,10 @@ class _DetailsEventState extends State<DetailsEvent>
   bool sudahBeli = false;
   bool isLogin = false;
   void getData() async {
+    prefs = await SharedPreferences.getInstance();
+
     String keySudahBeli = Teks.sudahBeli + widget.konser.namaKonser;
+    print(keySudahBeli);
     // print(DateTime.now().millisecondsSinceEpoch -
     //     widget.konser.datetimeTanggal.millisecondsSinceEpoch);
     if (firebaseAuthFunc.getCurrentUserID() == null) {
@@ -68,8 +72,10 @@ class _DetailsEventState extends State<DetailsEvent>
         isLogin = true;
       });
     }
-
-    prefs = await SharedPreferences.getInstance();
+    String tempnamaUser = prefs.getString(Teks.namaUser);
+    setState(() {
+      namaUser = tempnamaUser;
+    });
     if (prefs.getBool(keySudahBeli) == null) {
       await prefs.setBool(keySudahBeli, false);
     } else {
@@ -77,6 +83,7 @@ class _DetailsEventState extends State<DetailsEvent>
         sudahBeli = prefs.getBool(keySudahBeli);
       });
     }
+    print(sudahBeli.toString() + 'asd');
     if (DateTime.now().millisecondsSinceEpoch >=
         widget.konser.datetimeTanggal.millisecondsSinceEpoch) {
       setState(() {
@@ -476,6 +483,7 @@ class _DetailsEventState extends State<DetailsEvent>
                     sudahLive: sudahLive,
                     isLogin: isLogin,
                     keySudahBeli: keySudahBeli,
+                    namaUser: namaUser,
                   )))
         ],
       ),
@@ -605,19 +613,22 @@ class TombolBeli extends StatelessWidget {
   final bool sudahLive;
   final bool isLogin;
   final String keySudahBeli;
+  final String namaUser;
+
   Future<void> _handleCameraAndMic() async {
     await PermissionHandler().requestPermissions(
       [PermissionGroup.camera, PermissionGroup.microphone],
     );
   }
 
-  const TombolBeli(
-      {Key key,
-      this.sudahBeli,
-      this.sudahLive,
-      this.isLogin,
-      this.keySudahBeli})
-      : super(key: key);
+  const TombolBeli({
+    Key key,
+    this.sudahBeli,
+    this.sudahLive,
+    this.isLogin,
+    this.keySudahBeli,
+    this.namaUser = "Zharfan",
+  }) : super(key: key);
   void startAddTransaction(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -643,7 +654,8 @@ class TombolBeli extends StatelessWidget {
           onPressed: () async {
             await _handleCameraAndMic();
             ExtendedNavigator.of(context).push(Routes.liveConcertPage,
-                arguments: LiveConcertPageArguments(role: ClientRole.Audience));
+                arguments: LiveConcertPageArguments(
+                    role: ClientRole.Audience, namaUsers: namaUser));
             //tama
           },
           padding: EdgeInsets.all(15),

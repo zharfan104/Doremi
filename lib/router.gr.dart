@@ -220,6 +220,7 @@ class Router extends RouterBase {
             LiveConcertPage(
           key: args.key,
           role: args.role,
+          namaUsers: args.namaUsers,
         ),
         settings: data,
         transitionsBuilder: TransitionsBuilders.fadeIn,
@@ -263,5 +264,6 @@ class HomeMusisiArguments {
 class LiveConcertPageArguments {
   final Key key;
   final ClientRole role;
-  LiveConcertPageArguments({this.key, this.role});
+  final String namaUsers;
+  LiveConcertPageArguments({this.key, this.role, this.namaUsers});
 }

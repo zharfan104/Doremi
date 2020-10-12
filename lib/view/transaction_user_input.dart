@@ -330,8 +330,11 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                       ),
                       onPressed: () async {
                         if (_fbKey.currentState.saveAndValidate()) {
+                          print(widget.keySudahBeli);
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
+                          await prefs.setBool(widget.keySudahBeli, true);
+
                           int jum = prefs.getInt(Teks.jumTiket);
                           if (jum == null) {
                             await prefs.setInt(Teks.jumTiket, 1);
@@ -343,7 +346,6 @@ class _TransactionUserInputState extends State<TransactionUserInput> {
                             }
                           }
                           print(_fbKey.currentState.value);
-                          await prefs.setBool(widget.keySudahBeli, true);
 
                           ExtendedNavigator.of(context).push(
                             Routes.checkOutPage,
