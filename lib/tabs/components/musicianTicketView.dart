@@ -1,3 +1,4 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:doremi/app_properties.dart';
 import 'package:doremi/router.gr.dart';
@@ -368,7 +369,10 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    LiveConcertPage()));
+                                                    LiveConcertPage(
+                                                      role: ClientRole
+                                                          .Broadcaster,
+                                                    )));
                                       },
                                       child: Row(
                                         mainAxisAlignment:
