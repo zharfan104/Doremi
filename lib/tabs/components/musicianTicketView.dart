@@ -450,8 +450,9 @@ class _MusicianTicketViewState extends State<MusicianTicketView> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     LiveConcertPage(
-                                                        role: ClientRole
-                                                            .Broadcaster)));
+                                                      role: ClientRole
+                                                          .Broadcaster,
+                                                    )));
                                       },
                                       child: Row(
                                         mainAxisAlignment:
