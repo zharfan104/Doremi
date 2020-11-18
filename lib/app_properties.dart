@@ -7,7 +7,7 @@ const Color transparentYellow = Color.fromRGBO(253, 184, 70, 0.7);
 const Color darkGrey = Color(0xff202020);
 
 const Color lightAqua = Color(0xff0DF6E3);
-const Color darkAqua = Color(0xff96989A);
+const Color darkAqua = Color(0xff9l6989A);
 const Color lightBlack = Color(0xff373435);
 const Color darkBlack = Color(0xff2E2E2E);
 const Color ticketColor = Color(0xffF9FBFC);
